@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>login</h1>
+            <div align="center">
+
+                <div>
+                <style>
+                    h5{
+                        color: red;
+                    }
+                </style>
+                {% for message in messages %}
+                <h5>{{message}}</h5>
+                {% endfor %}
+                </div>
+
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Username" />
+                <input type="password" name="password" placeholder="Password" />
+                <button style="color:black;background-color:orange" type="submit" class="signup-btn">Login</button>
+            </form>
+
+            <span>Ready to watch? Enter your email to create or restart your membership.</span>
+                <br>
+                <br>
+            <span>Dont have an account? <a href="/signup">Signup</a></span>
+            </div>
+</body>
+</html>

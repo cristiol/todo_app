@@ -5,6 +5,24 @@
     <title>To do</title>
 </head>
 <body>
+
+    <h3 align="right">Welcome, {{user.username}}</h3>
+
+ <!-- Buton pentru Signup -->
+    <form action="{% url 'login' %}" method="get">
+        <button type="submit">login</button>
+    </form>
+
+    <!-- Buton pentru Login -->
+    <form action="{% url 'signup' %}" method="get">
+        <button type="submit">signup</button>
+    </form>
+
+    <!-- Buton pentru Logout -->
+    <form action="{% url 'logout' %}" method="get">
+        <button type="submit">Logout</button>
+    </form>
+
 <div class="center-column">
     <form method="POST" action="/">
         {% csrf_token %}
