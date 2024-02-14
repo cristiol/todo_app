@@ -7,7 +7,7 @@
 <body>
 
     <h3 align="right">Welcome, {{user.username}}</h3>
-
+    <div align="right">
  <!-- Buton pentru Signup -->
     <form action="{% url 'login' %}" method="get">
         <button type="submit">login</button>
@@ -22,22 +22,41 @@
     <form action="{% url 'logout' %}" method="get">
         <button type="submit">Logout</button>
     </form>
+    </div>
 
-<div class="center-column">
-    <form method="POST" action="/">
+    <div align="center">
+        <h1>Add Task</h1>
+        <form method="post">
         {% csrf_token %}
-        {{form.title}}
-        <input type="submit" name="Create task">
-    </form>
+        {{ form.title }}
+            {{form.owner_user}}
+        <button type="submit">Add Task</button>
+
+     <div>
+                <style>
+                    h5{
+                        color: red;
+                    }
+                </style>
+                {% for message in messages %}
+                <h5>{{message}}</h5>
+                {% endfor %}
+            </div>
+
+
+    <br>
+    <br>
+
 
     {% for task in tasks %}
         <div>
+            <h3>{{task.owner_user}}</h3>
             <a href="{% url 'update_task' task.id %}">update</a>
             <a href="{% url 'delete_task' task.id %}">delete</a>
                 {% if task.complete == True %}
-                <strike>{{task}}</strike>
+                <strike>{{task.title}}</strike>
                 {% else %}
-                <span>{{task}}</span>
+                <span>{{task.title}}</span>
                 {% endif %}
         </div>
     {% endfor %}

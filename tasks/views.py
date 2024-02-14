@@ -1,26 +1,39 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from .models import *
 from .forms import *
 from django.contrib.auth.models import auth, User
 from django.contrib import messages
 
 
+
 @login_required(login_url='login')
 def index(request):
-    tasks = Tasks.objects.all()
+    tasks = Tasks.objects.filter(owner_user=request.user)
 
     form = TasksForm()
 
+
     if request.method == 'POST':
         form = TasksForm(request.POST)
+
         if form.is_valid():
-            form.save()
-        return redirect('/')
+            task = form.save(commit=False)
+            task.owner_user = request.user  # Nu mai este nevoie de acest rând
+            task.save()
+            messages.success(request, 'added successfully')
+            return redirect('/')
+        else:
+            messages.error(request, form.errors)
+    else:
+        form = TasksForm()
 
     context = {"tasks": tasks, "form": form}
     return render(request, 'tasks/list_todo.html', context)
+
+
+
 
 
 @login_required(login_url='login')
