@@ -24,15 +24,22 @@
     </form>
     </div>
 
+            <div align="center">
+            <form method="get" >
+                <input type="text" name="search-area" value="{{search_input}}">
+                <input type="submit" value="Search">
+            </form>
+                <br>
+                <br>
+            </div>
     <div align="center">
         <h1>Add Task</h1>
         <form method="post">
         {% csrf_token %}
         {{ form.title }}
-            {{form.owner_user}}
         <button type="submit">Add Task</button>
 
-     <div>
+            <div>
                 <style>
                     h5{
                         color: red;
@@ -47,19 +54,21 @@
     <br>
     <br>
 
-
+            <h3>{{user.username}}' tasks list</h3>
     {% for task in tasks %}
         <div>
-            <h3>{{task.owner_user}}</h3>
+
             <a href="{% url 'update_task' task.id %}">update</a>
             <a href="{% url 'delete_task' task.id %}">delete</a>
                 {% if task.complete == True %}
                 <strike>{{task.title}}</strike>
                 {% else %}
                 <span>{{task.title}}</span>
+
                 {% endif %}
         </div>
+        <br>
     {% endfor %}
-</div>
+    </div>
 </body>
 </html>

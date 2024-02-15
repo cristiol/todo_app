@@ -1,7 +1,5 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseForbidden
-from .models import *
 from .forms import *
 from django.contrib.auth.models import auth, User
 from django.contrib import messages
@@ -11,16 +9,17 @@ from django.contrib import messages
 @login_required(login_url='login')
 def index(request):
     tasks = Tasks.objects.filter(owner_user=request.user)
+    search_input = request.GET.get('search-area') or ''
+
 
     form = TasksForm()
-
 
     if request.method == 'POST':
         form = TasksForm(request.POST)
 
         if form.is_valid():
             task = form.save(commit=False)
-            task.owner_user = request.user  # Nu mai este nevoie de acest rând
+            task.owner_user = request.user
             task.save()
             messages.success(request, 'added successfully')
             return redirect('/')
@@ -28,6 +27,10 @@ def index(request):
             messages.error(request, form.errors)
     else:
         form = TasksForm()
+
+    if search_input:
+        tasks = tasks.filter(title__icontains=search_input)
+
 
     context = {"tasks": tasks, "form": form}
     return render(request, 'tasks/list_todo.html', context)

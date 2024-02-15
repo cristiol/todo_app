@@ -10,7 +10,7 @@ class TasksForm(ModelForm):
 
     class Meta:
         model = Tasks
-        fields = ['title']
+        fields = ['title', 'complete']
 
 
 

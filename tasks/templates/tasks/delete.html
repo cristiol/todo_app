@@ -8,10 +8,11 @@
 <p>Are you sure you want to delete "{{item}}"?</p>
 
 <a href="{% url 'list' %}" >Cancel</a>
-
+<br>
+<br>
 <form method="POST" action="">
 	{% csrf_token %}
-	<input type="submit" name="Confirm">
+	<input type="submit" name="Confirm" text="da">
 </form>
 
 </body>
